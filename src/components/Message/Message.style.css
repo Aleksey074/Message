@@ -1,0 +1,21 @@
+.message{
+    color: red;
+    font-size: 50px;
+    outline: 1px solid black;
+    display: flex;
+
+    }
+
+.author{
+    background-color: white;
+    outline: 1px solid black;
+    
+
+}
+
+.text{
+    background-color: rgba(255, 255, 255, 0.843);
+    color: black;
+    outline: 1px solid black;
+    
+}
