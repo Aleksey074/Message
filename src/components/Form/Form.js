@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import "./Form.style.css";
 
 export const Form = ({ onSubmit }) => {
 
@@ -15,10 +18,17 @@ export const Form = ({ onSubmit }) => {
         setValue(event.target.value);
     }
 
+    const inputRef = useRef();
+    
+    useEffect(() => {
+        inputRef.current?.focus();
+      }, []);
+
+
     return  (
         <form className="form" onSubmit={handleSubmit}>
-            <input value={value} onChange={handleChange} type="text" className="form-text" placeholder="Введите текст сообщения..." />
-            <input type="submit" />
+            <TextField className="input-form" value={value} onChange={handleChange}  placeholder="Введите текст сообщения..." inputRef={inputRef} />
+            <Button className="btn-form" type="submit" variant="contained">Отправить</Button>
         </form>
     )
 }
