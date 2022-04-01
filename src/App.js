@@ -1,40 +1,62 @@
-//import logo from './logo.svg';
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Message } from "./components/Message/Message"
 import { Form } from './components/Form/Form';
-//import { Counter } from "./components/Message/example/example.js"
+import { ChatList } from './components/ChatList/ChatList';
+import { AUTHORS } from "./utils/constans";
 
 
 const MessageList = () => {
 
-  const name = "Я";
-
   const [messages, setMessages] = useState([]);   //изначальное значение - Пустой массив
+  const timeout = useRef();
+
+
+  const [chatList, setChatList] = useState([
+    { id: `cht-1`, name: 'Людмила' },
+    { id: `cht-2`, name: 'Евгений' },
+    { id: `cht-3`, name: 'Василий' },
+  ]);
+
+
 
   useEffect(() => {
-
-    const lastMessage = messages[messages.length - 1]  //проверка последнего сообщения
-
-    if (lastMessage?.author !== "Робот" && messages.length) {  //проверяем: кто был автором последнего сообщения
-      setMessages([...messages, { text: "Привет! Я виртуальный помощник. Чем я могу тебе помочь?", author: "Робот" }])
-
+    if (messages[messages.length - 1]?.author === AUTHORS.human) {
+      timeout.current = setTimeout(() => {
+        setMessages([...messages, { text: "Привет, я помогу тебе! Какой у тебя вопрос?", author: AUTHORS.robot, id: `msg-${Date.now()}` }])
+      }, 4000);
     }
 
+    return () => {
+      clearTimeout(timeout.current);
+    };
   }, [messages]);
 
+
   const addMessage = (newText) => {
-    setMessages([...messages, { text: newText, author: name }])
+    setMessages([...messages, { text: newText, author: AUTHORS.human, id: `msg-${Date.now()}` }])
   }
 
   return (
-    <div className="App" style={{ backgroundColor: "grey" }}>
-      {messages.map((msg) => (                            //рендер списка сообщений через map
-        <Message text={msg.text} author={msg.author} />
-      ))}
-      <Form onSubmit={addMessage} />
-    </div>
+
+    <>
+
+      <div className="App" style={{ backgroundColor: "rgb(0, 255,170)", width: "988px", position: "absolute", right: "0", minHeight: "100vh" }}>
+        {messages.map((msg) => (                            //рендер списка сообщений через map
+          <Message key={msg.id} text={msg.text} author={msg.author} />
+        ))}
+        <Form onSubmit={addMessage} />
+      </div>
+
+
+      <div>
+        <ChatList sx={{ gridArea: 'chat-list' }} chatList={chatList} />
+      </div>
+
+    </>
+
   );
 }
+
 
 export default MessageList;

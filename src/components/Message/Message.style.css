@@ -1,21 +1,15 @@
 .message{
     color: red;
     font-size: 50px;
-    outline: 1px solid black;
     display: flex;
-
+    margin-bottom: 10px;
     }
 
-.author{
-    background-color: white;
-    outline: 1px solid black;
-    
-
-}
-
 .text{
-    background-color: rgba(255, 255, 255, 0.843);
+    background-color: white;
     color: black;
-    outline: 1px solid black;
-    
+    border-radius: 20px;
+    padding: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
