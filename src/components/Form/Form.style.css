@@ -1,8 +1,16 @@
+.form{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    margin-top: 30px;
+}
+
 .input-form{
     background-color: white;
-    width: 850px;
+    width: 87%;
 }
 
 .btn-form{
     height: 55px;
+    width: 13%;
 }
