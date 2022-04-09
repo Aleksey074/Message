@@ -1,21 +1,48 @@
 .chat-list {
-    min-height: 90vh;
+    height: 80vh;
     width: 30%;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    border-right: 1px solid black;
+
 }
 
-.chat-item {
+.chat-link {
     text-decoration: none;
     list-style-type: none;
-    outline: 1px solid black;
     color: black;
     width: 100%;
     font-size: 30px;
     padding: 15px;
+    padding-right: 300px;
+}
+
+.chat-item{
+    outline: 1px solid black;
+    position: relative;
+    padding: 15px 0;
+   
 }
 
 .chat-item:hover {
-    color: #ffe;
-    background-color: #5488af;
+    background-color: rgb(109, 109, 240);
 }
+
+.chat-delete{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 10;
+    background-color: white;
+    border: none;
+    border-radius: 20%;
+    padding: 5px 10px ;
+    font-size: 20px;
+}
+
+.chat-delete:hover {
+    background-color: rgb(215, 215, 215);
+    color: blue;
+}
+
