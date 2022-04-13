@@ -1,18 +1,17 @@
 import './App.css';
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { Chat } from './screens/Chat/Chat';
+import { Profile } from "./components/Profile/Profile";
+import { Home } from "./components/Home/Home";
+import { ChatList } from './components/ChatList/ChatList';
 
-const Home = () => {
-  return (<h1>Домашняя  страница</h1>)
-}
-
-const Profile = () => {
-  return (<h1>Мой профиль</h1>)
-}
 
 
 function App() {
+
+
   return (
+
     <BrowserRouter>
 
       <ul className='menu'>
@@ -23,14 +22,12 @@ function App() {
       </ul>
 
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/chat' element={<Chat />} >
-            <Route path=':id' element={<Chat />}  />
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/chat" element={<ChatList />}>
+          <Route path=":id" element={<Chat />} />
         </Route>
-        <Route path='/profile' element={<Profile />} />
-        <Route path='*' element={<h4>Ошибка 404..</h4>} />
-
-
+        <Route path="*" element={<h4>Ошибка 404...</h4>} />
       </Routes>
 
     </BrowserRouter>
