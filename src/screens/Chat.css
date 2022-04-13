@@ -3,6 +3,16 @@
     min-height: 90vh;
     position: absolute;
     right: 0px;
+    top: 72px;
     width: 70%;
     border-left: solid 1px black;
+}
+
+.msg-list{
+    height: 100px;
+}
+
+.msg-list{
+    height: 80vh;
+    overflow: auto;
 }
