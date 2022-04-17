@@ -4,6 +4,7 @@ import { Chat } from './screens/Chat/Chat';
 import { Profile } from "./components/Profile/Profile";
 import { Home } from "./components/Home/Home";
 import { ChatList } from './components/ChatList/ChatList';
+import { Articles } from './screens/Articles/Articles';
 
 
 
@@ -18,7 +19,7 @@ function App() {
         <li><NavLink className="menu-link" to="/" style={({ isActive }) => ({ color: isActive ? "rgb(0, 255,170)" : "blue" })}>Домой</NavLink></li>
         <li><NavLink className="menu-link" to="/chat" style={({ isActive }) => ({ color: isActive ? "rgb(0, 255,170)" : "blue" })}>Диалоги</NavLink></li>
         <li><NavLink className="menu-link" to="/profile" style={({ isActive }) => ({ color: isActive ? "rgb(0, 255,170)" : "blue" })}>Профиль</NavLink></li>
-
+        <li><NavLink className="menu-link" to="/articles" style={({ isActive }) => ({ color: isActive ? "rgb(0, 255,170)" : "blue" })}>Лента</NavLink></li>
       </ul>
 
       <Routes>
@@ -27,6 +28,7 @@ function App() {
         <Route path="/chat" element={<ChatList />}>
           <Route path=":id" element={<Chat />} />
         </Route>
+        <Route path="articles" element={<Articles />} />
         <Route path="*" element={<h4>Ошибка 404...</h4>} />
       </Routes>
 

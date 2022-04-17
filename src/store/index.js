@@ -5,6 +5,7 @@ import { profileReducer } from "./profile/reducer";
 import { chatsReducer } from "./chats/reducer";
 import { messagesReducer } from "./messages/reducer";
 import thunk from "redux-thunk";
+import { articlesReducer } from "./articles/reducer";
 
 const persistConfig = {  //это {}, показывающий как храним данные
     key: "myMessenger",
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({  //корневой reducer
     profile: profileReducer,   // название раздела: фи-я reducer для раздела
     chats: chatsReducer,
     messages: messagesReducer,
+    articles: articlesReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

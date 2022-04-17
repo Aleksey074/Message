@@ -1,12 +1,12 @@
 import { useRef, useMemo } from "react";
 import { Form } from "../../components/Form/Form";
 import { AUTHORS } from "../../utils/constants";
-import "../Chat.css";
 import { useParams, Navigate } from "react-router-dom";
 import { MessageList } from "../../components/MessageList/MessageList";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMessagesByChatId } from "../../store/messages/selectors";
 import { addMessageWithReply } from "../../store/messages/actions";
+import "./Chat.css";
 
 
 
