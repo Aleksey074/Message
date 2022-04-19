@@ -1,0 +1,17 @@
+.main-info {
+    display: flex;
+    width: 100%;
+}
+
+.profile {
+    margin-right: 10px;
+}
+
+.name-checkbox{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin-top: 0px;
+    margin-right: 15px;
+}
+
