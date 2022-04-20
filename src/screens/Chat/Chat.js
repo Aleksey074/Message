@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import { Form } from "../../components/Form/Form";
 import { AUTHORS } from "../../utils/constants";
 import { useParams, Navigate } from "react-router-dom";
@@ -7,38 +7,46 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectMessagesByChatId } from "../../store/messages/selectors";
 import { addMessageWithReply } from "../../store/messages/actions";
 import "./Chat.css";
+import { onValue, push } from "firebase/database";
+import { getMsgsListRefById, getMsgsRefById } from "../../services/firebase";
 
 
 
 export const Chat = () => { //пропсом принимает messages мз App
 
-  const { id } = useParams(); //хук, определяет параметр path(id) в адресной строке и записывает его в объект
+  const { id } = useParams();
 
-  const [messages, setMesages] = useState([]);
+  const [messages, setMessages] = useState([]);
 
-
-  const getMessages = useMemo(() => selectMessagesByChatId(id), [id]); //этот хук отслеживает изменение завис-ти 
-  //const messages = useSelector(getMessages);
+  const getMessages = useMemo(() => selectMessagesByChatId(id), [id]);
   const dispatch = useDispatch();
 
-
-
-  const sendMessage = (text) => {  //эта функция срабатывает при нажатии на форму и вызывает  addMessage (передается: автор - human, введенный текст + уник. ключ)
-    dispatch(
-      addMessageWithReply(
-        {
-          author: AUTHORS.human,
-          text,
-          id: `msg-${Date.now()}`
-        },
-        id
-      )
-    );
+  const sendMessage = (text) => {
+    push(getMsgsListRefById(id), {
+      author: AUTHORS.human,
+      text,
+      id: `msg-${Date.now()}`,
+    });
   };
+
+  useEffect(() => {
+    const unsubscribe = onValue(getMsgsRefById(id), (snapshot) => {
+      const val = snapshot.val();
+      if (!snapshot.val()?.exists) {
+        setMessages(null);
+      } else {
+        console.log(val.messageList);
+        setMessages(Object.values(val.MessageList || {}));
+      }
+    });
+
+    return unsubscribe;
+  }, [id]);
 
   if (!messages) {
     return <Navigate to="/chat" replace />;
   }
+
 
   return (  // рендер открытого диалога + чатов (также проверка: выбран ли с кем-то диалог..)
     <>

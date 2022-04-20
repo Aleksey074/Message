@@ -16,6 +16,7 @@
     font-size: 30px;
     padding: 15px;
     padding-right: 300px;
+    outline: 1px solid red;
 }
 
 .chat-item {

@@ -9,20 +9,18 @@ import { Form } from "../Form/Form";
 import "./ChatList.css";
 import { useEffect, useState } from "react";
 import { chatsRef, getChatRefById } from "../../services/firebase";
-import { onValue, set } from "@firebase/database";
+import { onValue, set, remove } from "@firebase/database";
 import { Link } from "@mui/material";
+import { getMsgsRefById } from "../../services/firebase";
 
 
 
 
 export const ChatList = () => {
 
-  const [chats, setChats] = useState();
-
-
-  //const chats = useSelector(selectChats);
+  const [chats, setChats] = useState([]);
+  // const chats = useSelector(selectChats);
   const dispatch = useDispatch();
-
 
   const handleSubmit = (newChatName) => {
     const newChat = {
@@ -30,25 +28,23 @@ export const ChatList = () => {
       id: `chat-${Date.now()}`,
     };
 
-    //dispatch(addChat(newChat));
-    set(getChatRefById(newChat.id), newChat)
-    dispatch(initMessagesForChat(newChat.id));
-  }
+    set(getChatRefById(newChat.id), newChat);
+    set(getMsgsRefById(newChat.id), { exists: true });
+  };
 
   const handleRemoveChat = (id) => {
-    dispatch(deleteChat(id));;
-    dispatch(clearMessages(id));
-  }
+    remove(getChatRefById(id));
+    set(getMsgsRefById(id), null);
+  };
 
   useEffect(() => {
     const unsubscribe = onValue(chatsRef, (snapshot) => {
       console.log(snapshot.val());
-      setChats(Object.values(snapshot.val()));
+      setChats(Object.values(snapshot.val() || {}));
     });
-
     return unsubscribe;
-
   }, []);
+
 
   return (
     <>
