@@ -1,21 +1,39 @@
-import { Checkbox } from "@mui/material"
-import { useSelector, useDispatch } from "react-redux"
-import { toggleCheckbox, setName } from "../../store/profile/actions";
+import { onValue, set } from "@firebase/database";
+
+import { Checkbox } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { Form } from "../../components/Form/Form";
-import { selectName, selectShowName } from "./selectors";
+import { useState, useEffect, } from "react";
 import "./Profile.css";
+import { logOut, userNameRef, userShowNameRef } from "../../services/firebase";
+import { initProfileTrack, setName, stopProfileTrack } from "../../store/profile/actions";
+import { useSelector } from "react-redux";
+import { setNameFB, setShowName } from "../../store/profile/actions";
+import { selectName, selectShowName } from "./selectors";
 
-export const Profile = () => {
-  const dispatch = useDispatch(); // хук диспатча
-  const name = useSelector(selectName);  //этим селектором забираем имя
-  const showName = useSelector(selectShowName); // этим  selectShowName из selectors.js
+
+
+export const Profile = ({ onLogout }) => {
+  const dispatch = useDispatch();
+
+  const name = useSelector(selectName);
+  const showName = useSelector(selectShowName);
   const handleClick = () => {
-    dispatch(toggleCheckbox)
-  }
+    dispatch(setShowName(!showName));
+  };
 
-  const handleSubmit = (text) => {  //форма принимает текст 
-    dispatch(setName(text))  // сюда падает результат вызова setName
-  }
+  const handleSubmit = (text) => {
+    dispatch(setNameFB(text));
+  };
+
+  useEffect(() => {
+    dispatch(initProfileTrack());
+
+    return () => {
+      dispatch(stopProfileTrack());
+    };
+  }, []);
+
 
   return (
     <>
@@ -23,9 +41,10 @@ export const Profile = () => {
         <h1 className="profile">Мой профиль:</h1>
         {showName && <h1 className="profile-name">{name}</h1>}
       </div>
+      <button onClick={onLogout}>Выйти из профиля</button>
 
 
-      <div className="name-checkbox"><Checkbox onClick={handleClick} />Отображать имя</div>
+      <div className="name-checkbox"><Checkbox onClick={logOut} />Отображать имя</div>
       <Form onSubmit={handleSubmit} />
     </>
   )
